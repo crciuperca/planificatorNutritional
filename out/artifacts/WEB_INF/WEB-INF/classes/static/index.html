@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Spring Boot - VueJs Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://vuejs.org/js/vue.js"></script>
+    <script src="/js/controller.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+</head>
+<body>
+
+<div class="container" ng-app="app">
+
+    <h3 style="color:blue">Http VueJs With SpringBoot Example</h3>
+    Username:
+    <input type="text" name="username" id="username" class="username" value="">
+    <br>
+    Password:
+    <input type="text" name="password" id="password" class="password" value="">
+    <br><br>
+    <input type="submit" value="Submit" onclick="createUser()">
+
+    <h1>Menu</h1>
+    <ul>
+        <li v-for="UserAccount in UserAccounts">
+            <h3>{{UserAccount}}</h3>
+        </li>
+    </ul>
+
+
+
+</div>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://vuejs.org/js/vue.js"></script>
+
+<script>
+    var app = new Vue({
+        e1: '#root',
+        data: {UserAccounts: []},
+        mounted(){
+            this.fetchUsers();
+        },
+        methods: {
+            fetchUsers(){
+                axios.get("/users").then(function(response){
+                    this.UserAccounts = response.data;
+                }).bind(this);
+            }
+        }
+
+    });
+</script>
+</html>

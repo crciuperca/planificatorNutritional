@@ -1,0 +1,1755 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" ref="css/animate.css"/>
+    <style>
+        html { font-size: 100%; }
+        body { font-size: 1.5em; }
+        h1 {
+            font-size: 2em;
+            color: white;
+            text-shadow: -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
+        }
+        .menuItem {
+            background-color:#90BA22;
+            cursor:pointer;
+            width: 100%;
+            vertical-align: middle;
+            height: 2em;
+            opacity: 80;
+        }
+        .menuItem:hover {
+            background-color: #BBDC77;
+            vertical-align: middle;
+            height: 2.3em;
+            opacity: 100;
+        }
+        .progressBtn {
+            background-color:#90BA22;
+            cursor:pointer;
+            vertical-align: middle;
+            width: 7em;
+            height: 2em;
+            opacity: 80;
+        }
+        .progressBtn:hover {
+            background-color: #BBDC77;
+            vertical-align: middle;
+            height: 2.3em;
+            opacity: 100;
+        }
+        .userNub {
+            background-color:#90BA22;
+            cursor:pointer;
+            width: 100%;
+            vertical-align: middle;
+            height: 2em;
+            opacity: 80;
+        }
+        .userNub:hover {
+            background-color: #BBDC77;
+            height: 2.3em;
+            opacity: 100;
+        }
+        .nutritionMenu {
+            background-color: #A3C658;
+            width: 100%;
+            vertical-align: middle;
+            height: 2em;
+            opacity: 80;
+            color: white;
+        }
+        .mealElem {
+            margin-top: 0.3em;
+            background-color: #A3C658;
+            width: 20em;
+            vertical-align: middle;
+            opacity: 80;
+            text-align: center;
+            color: white;
+        }
+        .timebox {
+            background-color:#90BA22;
+            font-size: 0.7em;
+            position: fixed;
+            bottom:0px;
+            padding-top: 10px;
+        }
+        .homeSlideshow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden
+        }
+        .homeSlideshow img {
+            flex-shrink: 0;
+            min-width: 90%;
+            min-height: 90%;
+            display:none;
+        }
+        .registrationItem {
+            font-size: 0.8em;
+        }
+        .signInMenu {
+            background-color: #BBDC77;
+        }
+        .accountSubmenu {
+            background-color: #A3C658;
+        }
+        .accountSubmenu:hover {
+             background-color: #BBDC77;
+         }
+        .selected {
+            opacity: 1;
+        }
+        img {
+            opacity:0.5;
+        }
+        img:hover {
+            opacity:1;
+        }
+
+        *,
+        *:after,
+        *:before {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-touch-callout: none;
+        }
+
+        html, body {
+            height: 100%;
+            text-align: center;
+        }
+
+        .btn {
+            background-color: #90BA22;
+            border: 0;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: bold;
+            padding: 15px 15px;
+            position: relative;
+        }
+
+        .btn:hover {
+            background-color: #BBDC77;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+
+        .helper {
+            height: 100%;
+            display: inline-block;
+            vertical-align: middle;
+            width: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .hidden.image {
+            display: inline-block !important;
+        }
+
+        .display-inline {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .img {
+            border: 1px solid #f6f6f6;
+            display: inline-block;
+            height: auto;
+            max-height: 80%;
+            max-width: 80%;
+            width: auto;
+        }
+
+        .drop {
+            background-color: #f2f2f2;
+            border: 4px dashed #ccc;
+            background-color: #f6f6f6;
+            border-radius: 2px;
+            height: 100%;
+            max-height: 400px;
+            max-width: 600px;
+            width: 100%;
+        }
+        .imgbox {
+            display: grid;
+            height: 90%;
+        }
+        .center-fit {
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+        }
+        .reg-step-title {
+            font-weight: bold;
+            background-color: #BBDC77;
+            color: white;
+            font-size: 1em;
+        }
+        .reg-elem {
+            width: 200px;
+            /*float: left;*/
+            vertical-align: middle;
+            /*align: left;*/
+            font-size: 1em;
+            cursor: default;
+            text-align: left;
+        }
+        .reg-field {
+            width: 300px;
+            height: 50px;
+            vertical-align: middle;
+            cursor: default;
+        }
+        .reg-field2 {
+            width: 300px;
+            height: 40px;
+            vertical-align: middle;
+            cursor: default;
+        }
+        .reg-alert {
+            height: 50px;
+            vertical-align: middle;
+            cursor: default
+        }
+        .tooltip-pic {
+            opacity: 1;
+            overflow: hidden;
+            position: fixed;
+            top: 6em;
+            right: 2em;
+            cursor: default;
+            height: 200px;
+            width: auto;
+        }
+        .reg-user-img {
+            position: fixed;
+            top: 18em;
+            right: 2em;
+        }
+        .profile-top-pic {
+            position: fixed;
+            top: 2.7em;
+            right: 0.2em;
+            border-radius: 50%;
+            opacity: 1;
+            height: 1.8em;
+            width: auto
+        }
+    </style>
+
+</head>
+<body>
+
+    <div id="app" class="container-fluid" style="position: relative; cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;">
+        <div class="row" style="background-color:#90BA22; z-index:1; position: fixed; top: 0; width: 100%" @click="goHome">
+            <div class="container-fluid" >
+                <h1 class="text-center"> Planificator nutritional</h1>
+            </div>
+        </div>
+        <span v-if="isHome">
+            <div class="w3-content w3-section imgbox" style="margin-top: 3em">
+                <img class="homeSlideshow center-fit" style="opacity: 1; overflow: hidden;" src="/images/home_slideshow_1jpg">
+            </div>
+        </span>
+        <div class="row">
+            <div class="col-sm-2 rounded-bottom text-center" style="position: fixed; top:2.7em">
+                <div class="menuItem" @click="showMenu" :class="{ 'rounded-bottom': !menuVisible }">Menu</div>
+                <span v-if="loggedIn">
+                    <div class="userNub rounded-bottom col-sm-2" style="position: fixed; top:2.7em; right: 0px; text-align: left" @click="selectMenu('accountUserInfo')">Welcome {{firstName}}</div>
+                    <img class="profile-top-pic" :src="image">
+                </span>
+                <span v-if="menuVisible">
+                    <span v-if="!loggedIn">
+                        <div class="menuItem" @click="selectMenu('register')" :class="{ 'signInMenu': registerMenuVisible }">Register</div>
+                        <div class="menuItem" @click="selectMenu('signin')" :class="{ 'signInMenu': signInMenuVisible }">Sign in</div>
+                        <span v-if="signInMenuVisible">
+                            <div class="container-fluid signInMenu rounded-bottom">
+                                    <input @click="clearUser" type="text" id="userName" class="form-control input-xs chat-input" placeholder="username" v-model="username"/>
+                                    <input @click="clearPass" type="password" id="userPassword" class="form-control input-xs chat-input" placeholder="password" v-model="password"/>
+                                    <a @click="login"><div>Submit</div></a>
+                            </div>
+                        </span>
+                    </span>
+                    <span v-if="loggedIn">
+                        <span v-if="isAdmin">
+                            <div class="menuItem rounded-bottom" @click="selectMenu('users')" :class="{ 'signInMenu': usersVisible }">Manage users</div>
+                        </span>
+
+                        <div class="menuItem" @click="selectMenu('account')" :class="{ 'signInMenu': (accountUserInfoMenuVisible || accountAccountInfoMenuVisible) }">My account</div>
+                        <span v-if="accountSubMenuVisible">
+                            <div class="container-fluid accountSubmenu rounded-bottom">
+                                <div class="accountSubmenu" @click="selectMenu('accountAccountInfo')">Account info</div>
+                                <div class="accountSubmenu" @click="selectMenu('accountUserInfo')">User info</div>
+                            </div>
+                        </span>
+                        <div class="menuItem" @click="selectMenu('progress')" :class="{ 'signInMenu': progressMenuVisible }">Progress</div>
+                        <div class="menuItem" @click="selectMenu('nutrition')" :class="{ 'signInMenu': nutritionMenuVisible }">Today's menu</div>
+                        <div class="menuItem" @click="signout">Sign out</div>
+                    </span>
+                    <div class="menuItem" @click="selectMenu('contact')" :class="{ 'signInMenu': contactMenuVisible }">Contact</div>
+                    <div class="menuItem rounded-bottom" @click="selectMenu('help')" :class="{ 'signInMenu': helpMenuVisible }">Help</div>
+                </span>
+            </div>
+            <div class="col-sm-10" style="left: 13em; top:2.8em">
+                <span v-if="registerMenuVisible" class="registrationItem">
+                    <div class="reg-step-title">{{registrationStep}}</div>
+                </span>
+                <span v-if="registerMenuVisible && registerPage == 1" class="registrationItem">
+                    <div class="col-sm-9">
+
+                        <div class="reg-elem">Username:</div>
+                        <div style="width: 100%;" class="row">
+                            <input class="form-control input-xs chat-input reg-field" v-model="username" @change="checkUsername" @focus="username=''">
+                            <div class="alert alert-info reg-alert">{{usernameErrMessage}}</div>
+                        </div>
+
+                        <div class="reg-elem">Password:</div>
+                        <div style="width: 100%;" class="row">
+                            <input class="form-control input-xs chat-input reg-field" v-model="password" @change="checkPass" type="password" @focus="password=''">
+                            <div class="alert alert-info reg-alert">{{passErrMessage}}</div>
+                        </div>
+
+                        <div class="reg-elem">Confirm password:</div>
+                        <div style="width: 100%;" class="row">
+                            <input class="form-control input-xs chat-input reg-field" v-model="checkPassword" @change="checkPass2" type="password" @focus="checkPassword=''">
+                            <div class="alert alert-info reg-alert">{{passCheckErrMessage}}</div>
+                        </div>
+
+                        <div class="reg-elem">Email:</div>
+                        <div style="width: 100%;" class="row">
+                            <input class="form-control input-xs chat-input reg-field" v-model="email" @change="checkEmail" @focus="email=''">
+                            <div class="alert alert-info reg-alert">{{emailErrMessage}}</div>
+                        </div>
+
+                        <img class="tooltip-pic" src="/images/register_tooltip_1">
+                    </div>
+                </span>
+                <span v-if="registerMenuVisible && registerPage == 2" class="registrationItem">
+                    <div class="col-sm-7" style="margin-top: 1em">
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">First Name:</div>
+                            <input class="form-control input-xs chat-input reg-field2" v-model="firstName" @focus="firstName=''">
+                        </div>
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Last Name:</div>
+                            <input class="form-control input-xs chat-input reg-field2" v-model="lastName" @focus="lastName=''">
+                        </div>
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Gender:</div>
+                            <select class="form-control input-xs chat-input reg-field2" v-model="pickedSex">
+                                <option v-for="sex in ['Male', 'Female']" :value="sex">
+                                    {{sex}}
+                                </option>
+                            </select>
+                        </div>
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Height:</div>
+                            <input class="form-control input-xs chat-input reg-field2" v-model="height" @focus="height=''">
+                            <select class="form-control input-xs chat-input reg-field2" v-model="pickedHeightUnit">
+                                <option v-for="heightMeasureUnit in heightMeasureUnits" :value="heightMeasureUnit">
+                                    {{heightMeasureUnit}}
+                                </option>
+                            </select>
+                        </div>
+
+
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Weight:</div>
+                            <input class="form-control input-xs chat-input reg-field2" v-model="weight" @focus="weight=''">
+                            <select class="form-control input-xs chat-input reg-field2" v-model="pickedWeightUnit">
+                                <option v-for="weightMeasureUnit in weightMeasureUnits" :value="weightMeasureUnit">
+                                    {{weightMeasureUnit}}
+                                </option>
+                            </select>
+                        </div>
+
+
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Birthday:</div>
+                            <input class="form-control input-xs chat-input reg-field2" v-model="birthdate" @focus="birthdate=''">
+                        </div>
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Target weight:</div>
+                            <input class="form-control input-xs chat-input reg-field2" v-model="targetWeight" @change="updateEstimation">
+                        </div>
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Target date:</div>
+                            <input class="form-control input-xs chat-input reg-field2" v-model="targetDate" @change="updateEstimation">
+                        </div>
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Diet:</div>
+                            <select class="form-control input-xs chat-input reg-field2" v-model="weightLossPlan" @change="checkFasting">
+                                <option v-for="wlPlan in weightLossPlanList" :value="wlPlan">
+                                    {{wlPlan}}
+                                </option>
+                            </select>
+                        </div>
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Activity level:</div>
+                            <select class="form-control input-xs chat-input reg-field2" v-model="activityLevel">
+                                <option v-for="alList in activityLevelList" :value="alList">
+                                    {{alList}}
+                                </option>
+                            </select>
+                        </div>
+                        <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Meals per day:</div>
+                            <span v-if="!isFasting">
+                                <select class="form-control input-xs chat-input reg-field2" v-model="mealsPerDay">
+                                    <option v-for="mpdList in mealsPerDayList" :value="mpdList">
+                                        {{mpdList}}
+                                    </option>
+                                </select>
+                            </span>
+                            <span v-if="isFasting">
+                                <select class="form-control input-xs chat-input reg-field2" v-model="mealsPerDay">
+                                    <option v-for="mpdList in mealsPerDay" :value="mpdList" disabled>
+                                        {{mpdList}}
+                                    </option>
+                                </select>
+                            </span>
+                        </div>
+                        <br></br>
+                        <div><b>Estimated daily caloric deficit: {{deficit1}}KCals</b></div>
+                        <div><b>Estimated weekly caloric deficit: {{deficit2}}KCals</b></div>
+                        <div><b>Estimated weekly weight loss: {{deficit3}}Kg</b></div>
+
+                        <img class="tooltip-pic" src="/images/register_tooltip_2jpg">
+                    </div>
+                    <div class="reg-user-img">
+                            <div class="registrationItem drop display-inline align-center" @dragover.prevent @drop="onDrop">
+                                <div class="helper"></div>
+                                <label v-if="!image" class="btn display-inline">
+                                    SELECT OR DROP AN IMAGE
+                                    <input type="file" name="image" @change="onChange">
+                                </label>
+                                <div class="hidden display-inline align-center" v-else :class="{ 'image': true }">
+                                    <img :src="image" alt="" class="img" style="opacity: 1; width: 90%; height: 90%; overflow: hidden;"/>
+                                    <br>
+                                    <br>
+                                    <button class="btn" @click="removeFile">REMOVE</button>
+                                </div>
+
+
+                            </div>
+                    </div>
+                </span>
+                <span v-if="registerMenuVisible && registerPage == 3" class="registrationItem">
+                    <div class="col-sm-10" style="margin-top: 1em">
+                        <div style="width: 100%;" class="row">
+                            <img v-for="allergy in allergies" :title="allergy.allergyType" :src="allergy.pictureName" :class="{ 'selected': isAllergicTo[allergy.id - 1] }"
+                                style="cursor: pointer" @click="addRemoveUserAlergy(allergy.id)">
+                        </div>
+
+                    </div>
+
+                </span>
+                <span v-if="registerMenuVisible" class="registrationItem">
+                    <div class="col-sm-3 menuItem rounded" style="text-align: center; vertical-align: middle; position: fixed; bottom: 6px; right: 6px;" @click="registerAccount">{{registerButtonMsg}}</div>
+                </span>
+
+                <span v-if="accountAccountInfoMenuVisible">
+                    <div class="col-sm-9" style="margin-top: 1em">
+                        <div class="reg-elem">Password:</div>
+                        <div style="width: 100%;" class="row">
+                            <input class="form-control input-xs chat-input reg-field" v-model="password" @change="checkPass" type="password" @focus="password=''">
+                            <div class="alert alert-info reg-alert">{{passErrMessage}}</div>
+                        </div>
+
+                        <div class="reg-elem">Confirm password:</div>
+                        <div style="width: 100%;" class="row">
+                            <input class="form-control input-xs chat-input reg-field" v-model="checkPassword" @change="checkPass2" type="password" @focus="checkPassword=''">
+                            <div class="alert alert-info reg-alert">{{passCheckErrMessage}}</div>
+                        </div>
+
+                        <div class="reg-elem">Email:</div>
+                        <div style="width: 100%;" class="row">
+                            <input class="form-control input-xs chat-input reg-field" v-model="email" @change="checkEmail" @focus="email=''">
+                            <div class="alert alert-info reg-alert">{{emailErrMessage}}</div>
+                        </div>
+
+                        <img class="tooltip-pic" src="/images/register_tooltip_1">
+                    </div>
+                    <div class="col-sm-3 menuItem rounded" style="text-align: center; vertical-align: middle; position: fixed; bottom: 6px; right: 6px;" @click="updateInfo1">{{updateInfoButton}}</div>
+                </span>
+
+                <span v-if="accountUserInfoMenuVisible" >
+                    <div style="width: 100%;margin-top: 1em" class="row">
+                        <div class="reg-elem">First Name:</div>
+                        <input class="form-control input-xs chat-input reg-field2" v-model="firstName" @focus="firstName=''">
+                    </div>
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Last Name:</div>
+                        <input class="form-control input-xs chat-input reg-field2" v-model="lastName" @focus="lastName=''">
+                    </div>
+                    <div style="width: 100%;" class="row">
+                            <div class="reg-elem">Gender:</div>
+                            <select class="form-control input-xs chat-input reg-field2" v-model="pickedSex">
+                                <option v-for="sex in ['Male', 'Female']" :value="sex">
+                                    {{sex}}
+                                </option>
+                            </select>
+                        </div>
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Height:</div>
+                        <input class="form-control input-xs chat-input reg-field2" v-model="height" @focus="height=''">
+                        <select class="form-control input-xs chat-input reg-field2" v-model="pickedHeightUnit">
+                            <option v-for="heightMeasureUnit in heightMeasureUnits" :value="heightMeasureUnit">
+                                {{heightMeasureUnit}}
+                            </option>
+                        </select>
+                    </div>
+
+
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Weight:</div>
+                        <input class="form-control input-xs chat-input reg-field2" v-model="weight" @focus="weight=''">
+                        <select class="form-control input-xs chat-input reg-field2" v-model="pickedWeightUnit">
+                            <option v-for="weightMeasureUnit in weightMeasureUnits" :value="weightMeasureUnit">
+                                {{weightMeasureUnit}}
+                            </option>
+                        </select>
+                    </div>
+
+
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Birthday:</div>
+                        <input class="form-control input-xs chat-input reg-field2" v-model="birthdate" @focus="birthdate=''">
+                    </div>
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Target weight:</div>
+                        <input class="form-control input-xs chat-input reg-field2" v-model="targetWeight" @change="updateEstimation">
+                    </div>
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Target date:</div>
+                        <input class="form-control input-xs chat-input reg-field2" v-model="targetDate" @change="updateEstimation">
+                    </div>
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Diet:</div>
+                        <select class="form-control input-xs chat-input reg-field2" v-model="weightLossPlan" @change="checkFasting">
+                            <option v-for="wlPlan in weightLossPlanList" :value="wlPlan">
+                                {{wlPlan}}
+                            </option>
+                        </select>
+                    </div>
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Activity level:</div>
+                        <select class="form-control input-xs chat-input reg-field2" v-model="activityLevel">
+                            <option v-for="alList in activityLevelList" :value="alList">
+                                {{alList}}
+                            </option>
+                        </select>
+                    </div>
+                    <div style="width: 100%;" class="row">
+                        <div class="reg-elem">Meals per day:</div>
+                        <span v-if="!isFasting">
+                            <select class="form-control input-xs chat-input reg-field2" v-model="mealsPerDay">
+                                <option v-for="mpdList in mealsPerDayList" :value="mpdList">
+                                    {{mpdList}}
+                                </option>
+                            </select>
+                        </span>
+                        <span v-if="isFasting">
+                            <select class="form-control input-xs chat-input reg-field2" v-model="mealsPerDay">
+                                <option v-for="mpdList in mealsPerDay" :value="mpdList" disabled>
+                                    {{mpdList}}
+                                </option>
+                            </select>
+                        </span>
+                    </div>
+                    <div class="reg-user-img">
+                            <div class="registrationItem drop display-inline align-center" @dragover.prevent @drop="onDrop">
+                                <div class="helper"></div>
+                                <label v-if="!image" class="btn display-inline">
+                                    SELECT OR DROP AN IMAGE
+                                    <input type="file" name="image" @change="onChange">
+                                </label>
+                                <div class="hidden display-inline align-center" v-else :class="{ 'image': true }">
+                                    <img :src="image" alt="" class="img" style="opacity: 1; width: 90%; height: 90%; overflow: hidden;"/>
+                                    <br>
+                                    <br>
+                                    <button class="btn" @click="removeFile">REMOVE</button>
+                                </div>
+
+
+                            </div>
+                    </div>
+                    <div class="col-sm-3 menuItem rounded" style="text-align: center; vertical-align: middle; position: fixed; bottom: 6px; right: 6px;" @click="updateInfo2">{{updateInfoButton}}</div>
+                </span>
+
+                <span v-if="contactMenuVisible" >
+                    <div style="margin-top: 3em; margin-left: 2em">
+                        <div class="col-sm-9" style="text-align: left">
+                            App created by Ciuperca Cristian Adrian</br>
+                            email: crciuperca@gmail.com </br>
+                        </div>
+                    </div>
+                </span>
+                <span v-if="helpMenuVisible">
+                    <div style="margin-top: 3em; margin-left: 2em">
+                        <div class="col-sm-9" style="text-align: left">
+                            In order to use the app you need to create an account first by pressing the "<b>Register</b>" button. </br>
+                            You can change your user information at any time by using "<b>My account</b>" menu</br></br>
+                            You can use the "<b>Progress</b>" menu if you want to check your weekly caloric intake. </br>
+                            That way you can see if you how much you were able to stick to your diet :) </br></br>
+                            If you are hungry and don't know what you should eat today, you can check out "<b>Today's menu</b>".<br>
+                            There you will find a pie chart representing what your macronutrient intake should look like</br>
+                            and also some suggestions regarding your daily meals.</br>
+                            Don't worry if you're picky. You don't like the menu? Use the "<b>Randomize</b>" button!</br></br>
+                            If you want to find out more about the creator of the app, click on the "<b>Contact</b>" button!</br>
+                        </div>
+                    </div>
+                </span>
+                <span v-if="progressMenuVisible">
+                     <div class="col-sm-10" style="margin-top: 1em">
+
+                            <div class="row" style="width: 100%">
+                                 <div class="progressBtn rounded" style="margin-left: 2em" onclick="prevWeek();">Prev</div>
+                                 <div class="progressBtn rounded" style="margin-left: 12em" onclick="showWeeklyChart();">Show chart</div>
+                                 <div class="progressBtn rounded" style="margin-left: 12em" onclick="nextWeek();">Next</div>
+                            </div>
+
+
+                        <div style="width: 100%; height: 100%; margin-top: 1em">
+                            <canvas id="weeklyChart" style="display: block; width: 10em; height: 5em;"></canvas>
+                        </div>
+                    </div>
+                </span>
+
+                <span v-if="nutritionMenuVisible">
+                    <div class="col-sm-4" style="margin-top: 1em">
+
+                        <div class="nutritionMenu rounded-top" style="text-align: center; vertical-align: middle;">Calories available:</div>
+                        <input class="form-control input-xs chat-input reg-field2" style="text-align: center; vertical-align: middle; width: 100%" v-model="calories" @change="updateCaloriesText" onclick="updateCaloriesText">
+                        <div class="nutritionMenu" style="text-align: center; vertical-align: middle;">Proteins: {{pPercentage}}%</div>
+                        <div class="nutritionMenu" style="text-align: center; vertical-align: middle;">Carbohydrates: {{cPercentage}}%</div>
+                        <div class="nutritionMenu" style="text-align: center; vertical-align: middle;">Fats: {{fPercentage}}%</div>
+                        <div class="menuItem rounded" style="text-align: center; vertical-align: middle;" onclick="showChart();">Show chart</div>
+                        <div class="menuItem rounded" style="text-align: center; vertical-align: middle;" onclick="changeChart();">Change chart</div>
+
+
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="chartTitle"></div>
+                        <div style="width: 100%; height: 100%;">
+                                <canvas id="pieChart" style="display: block; width: 100px; height: 100px;"></canvas>
+                        </div>
+                    </div>
+                    <!--<canvas id="nutritionPie" style="width: 600px; height: 400px;"></canvas>-->
+                    <!--<line-chart></line-chart>-->
+                    <!--<chartjs-pie :datalabel="'TestDataLabel'" :labels="['happy','myhappy','hello']" :data="[100,40,60]"></chartjs-pie>-->
+                    <div class="col-sm-3 rounded" style="text-align: center; vertical-align: middle; position: fixed; top: 4em; right: 10em;" >
+                        <div class="menuItem rounded" style="width: 6em" @click="updateCalories">
+                            <div class="row">
+                                <div style="padding-left: 1em">
+                                    Randomize
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mealElem rounded">
+                            <div class="row">
+                                <div style="padding-left: 1em">
+                                    Recommended menu:
+                                </div>
+                            </div>
+                        </div>
+                        <span v-if="mealsPerDay>0">
+                            <div class="mealElem rounded">
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        Meal 1:
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal1[0].qty}}{{todayFoodMenu.meal1[0].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal1[1].qty}}{{todayFoodMenu.meal1[1].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal1[2].qty}}{{todayFoodMenu.meal1[2].name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                        <span v-if="mealsPerDay>1">
+                            <div class="mealElem rounded">
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        Meal 2:
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal2[0].qty}}{{todayFoodMenu.meal2[0].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal2[1].qty}}{{todayFoodMenu.meal2[1].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal2[2].qty}}{{todayFoodMenu.meal2[2].name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                        <span v-if="mealsPerDay>2">
+                            <div class="mealElem rounded">
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        Meal 3:
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal3[0].qty}}{{todayFoodMenu.meal3[0].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal3[1].qty}}{{todayFoodMenu.meal3[1].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.meal3[2].qty}}{{todayFoodMenu.meal3[2].name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                        <span v-if="mealsPerDay>3">
+                            <div class="mealElem rounded">
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        Snack 1:
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.snack1[0].qty}}{{todayFoodMenu.snack1[0].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.snack1[1].qty}}{{todayFoodMenu.snack1[1].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.snack1[2].qty}}{{todayFoodMenu.snack1[2].name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                        <span v-if="mealsPerDay>4">
+                            <div class="mealElem rounded">
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        Snack 2:
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.snack2[0].qty}}{{todayFoodMenu.snack2[0].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.snack2[1].qty}}{{todayFoodMenu.snack2[1].name}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding-left: 1em">
+                                        {{todayFoodMenu.snack2[2].qty}}{{todayFoodMenu.snack2[2].name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+
+                    </div>
+
+                </span>
+                <span v-if="usersVisible">
+
+                    <div class="col-sm-9" style="margin-top: 1em">
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Creation date</th>
+                                <th>Enabled</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="userData in adminUserDataList">
+                                  <td>{{userData.username}}</td>
+                                  <td>{{userData.name}}</td>
+                                  <td>{{userData.email}}</td>
+                                  <td>{{userData.role}}</td>
+                                  <td>{{userData.creationDate}}</td>
+                                  <td><input type="checkbox" v-model="userData.enabled" @change="updateAdminUserData"></td>
+                              </tr>
+                            </tbody>
+                      </table>
+                    </div>
+                </span>
+
+            </div>
+
+        </div>
+        <div class="col-sm-2 rounded text-center timebox">
+            <p id="currentTime"></p>
+            <p id="currentDate"></p>
+        </div>
+
+    </div>
+    <!--<div style="display: block; width:500px; height: 500px;">-->
+        <!--<canvas id="myChart" style="display: block; width: 100px; height: 100px;"></canvas>-->
+    <!--</div>-->
+</body>
+<script>
+    window.redrawChart = true;
+    window.calories = 1857;
+    window.weeklyData = [];
+    window.weekNo = 0;
+    window.progressChart = null;
+    let dayColors = ["#3cba9f", "#3cba9f", "#3cba9f", "#3cba9f", "#3cba9f", "#3cba9f", "#3cba9f"];
+    let todayColor = "#8e5ea2";
+
+    function showWeeklyChart() {
+        setColor();
+        if (window.progressChart == null || window.redrawChart == true) {
+            window.progressChart = new Chart(document.getElementById("weeklyChart").getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                    datasets: [{
+                        data: window.weeklyData[window.weekNo],
+                        backgroundColor: dayColors
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        enabled: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            });
+            window.redrawChart = false;
+        } else {
+            window.progressChart.data.datasets = [{
+                data: window.weeklyData[window.weekNo],
+                backgroundColor: dayColors
+            }];
+            window.progressChart.update();
+        }
+
+    }
+    function nextWeek() {
+        console.log(window.weekNo);
+        if(window.weekNo < window.weeklyData.length - 1) {
+            window.weekNo++;
+            showWeeklyChart();
+        }
+    }
+    function prevWeek() {
+        console.log(window.weekNo);
+        if(window.weekNo > 0) {
+            window.weekNo--;
+            showWeeklyChart();
+        }
+    }
+    function setColor() {
+        console.log(window.weekNo);
+        if(window.weekNo == window.weeklyData.length - 1) {
+            dayColors[new Date().getDay() - 1] = todayColor;
+        } else {
+            dayColors = ["#3cba9f", "#3cba9f", "#3cba9f", "#3cba9f", "#3cba9f", "#3cba9f", "#3cba9f"];
+        }
+        console.log(dayColors);
+    }
+</script>
+<script>
+    // var ctx = document.getElementById("myChart").getContext('2d');
+
+    let chartType = "percent";
+    let calsInProt = 4;
+    let calsInCarb = 4;
+    let calsInFats = 9;
+    window.pPercent = 25;
+    window.cPercent = 60;
+    window.fPercent = 15;
+    window.pieChart = null;
+    function showChart() {
+        let pCals = Math.ceil( window.pPercent * window.calories / 100);
+        let pGrams = Math.ceil( window.pPercent * window.calories / 100 / calsInProt);
+        let cCals = Math.ceil( window.cPercent * window.calories / 100);
+        let cGrams = Math.ceil( window.cPercent * window.calories / 100 / calsInCarb);
+        let fCals = Math.ceil( window.fPercent * window.calories / 100);
+        let fGrams = Math.ceil( window.fPercent * window.calories / 100 / calsInFats)
+        if (chartType.localeCompare("percent") == 0) {
+            document.getElementById('chartTitle').innerHTML = "Macronutrient chart (percentages)";
+            if (window.pieChart == null  || window.redrawChart == true) {
+                window.pieChart = new Chart(document.getElementById("pieChart").getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Proteins(" + window.pPercent + "%)", "Carbohydrates(" + window.cPercent + "%)", "Fats(" + window.fPercent + "%)"],
+                        datasets: [{
+                            label: '%',
+                            data: [ window.pPercent, window.cPercent, window.fPercent],
+                            backgroundColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+                window.redrawChart = false;
+            } else {
+                window.pieChart.data = {
+                    labels: ["Proteins(" + window.pPercent + "%)", "Carbohydrates(" + window.cPercent + "%)", "Fats(" + window.fPercent + "%)"],
+                    datasets: [{
+                        label: '%',
+                        data: [window.pPercent, window.cPercent, window.fPercent],
+                        backgroundColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+                window.pieChart.update();
+            }
+        } else if (chartType.localeCompare("grams") == 0) {
+            if (window.pieChart == null  || window.redrawChart == true) {
+                window.pieChart = new Chart(document.getElementById("pieChart").getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Proteins(" + pGrams + "g)", "Carbohydrates(" + cGrams + "g)", "Fats(" + fGrams + "g)"],
+                        datasets: [{
+                            label: 'grams',
+                            data: [window.pPercent * window.calories / 100 / calsInProt, window.cPercent * window.calories / 100 / calsInCarb, window.fPercent * window.calories / 100 / calsInFats],
+                            backgroundColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }],
+                        options: {
+                            animation: {
+                                animateRotate: true
+                            }
+                        }
+                    }
+                });
+                window.redrawChart = false;
+            } else {
+                window.pieChart.data = {
+                    labels: ["Proteins(" + pGrams + "g)", "Carbohydrates(" + cGrams + "g)", "Fats(" + fGrams + "g)"],
+                    datasets: [{
+                        label: 'grams',
+                        data: [window.pPercent * window.calories / 100 / calsInProt, window.cPercent * window.calories / 100 / calsInCarb, window.fPercent * window.calories / 100 / calsInFats],
+                        backgroundColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }],
+                    options: {
+                        animation: {
+                            animateRotate: true
+                        }
+                    }
+                };
+                window.pieChart.update();
+            }
+        } else if (chartType.localeCompare("calories") == 0) {
+            if (window.pieChart == null  || window.redrawChart == true) {
+                window.pieChart = new Chart(document.getElementById("pieChart").getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ["Proteins(" + pCals + "KCal)", "Carbohydrates(" + cCals + "KCal)", "Fats(" + fCals + "KCal)"],
+                        datasets: [{
+                            label: 'KCal',
+                            data: [window.pPercent * window.calories / 100, window.cPercent * window.calories / 100, window.fPercent * window.calories / 100],
+                            backgroundColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    }
+                });
+                window.redrawChart = false;
+            } else {
+                window.pieChart.data = {
+                    labels: ["Proteins(" + pCals + "KCal)", "Carbohydrates(" + cCals + "KCal)", "Fats(" + fCals + "KCal)"],
+                    datasets: [{
+                        label: 'KCal',
+                        data: [window.pPercent * window.calories / 100, window.cPercent * window.calories / 100, window.fPercent * window.calories / 100],
+                        backgroundColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+                window.pieChart.update();
+            }
+        }
+    }
+    function changeChart() {
+        if (chartType.localeCompare("percent") == 0) {
+            chartType = "grams";
+            document.getElementById('chartTitle').innerHTML = "Macronutrient chart (grams)";
+            showChart();
+        } else if (chartType.localeCompare("grams") == 0) {
+            chartType = "calories";
+            document.getElementById('chartTitle').innerHTML = "Macronutrient chart (KCalories)";
+            showChart();
+        } else if (chartType.localeCompare("calories") == 0) {
+            chartType = "percent";
+            document.getElementById('chartTitle').innerHTML = "Macronutrient chart (percentages)";
+            showChart();
+        }
+    }
+    // window.onload = showChart;
+</script>
+
+<script>
+    var slideshowIndex = 0;
+    carousel();
+    function carousel() {
+        var i;
+        var x = document.getElementsByClassName("homeSlideshow");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        slideshowIndex++;
+        if (slideshowIndex > x.length) {slideshowIndex = 1}
+        x[slideshowIndex-1].style.display = "block";
+
+        setTimeout(carousel, 4300);
+    }
+</script>
+<script>
+    var display=setInterval(function(){Time()},0);
+
+
+    function Time()
+    {
+        var date=new Date();
+        var time=date.toLocaleTimeString();
+        document.getElementById("currentTime").innerHTML=time;
+        document.getElementById("currentDate").innerHTML=date.toLocaleDateString('ro-RO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+</script>
+
+
+
+<script>
+
+    var loginPopup = $('#loginPopup');
+    var loginButton = $('#button-a');
+    loginPopup.hide();
+    loginButton.click(function(){
+       loginPopup.show();
+       var popup = new Popper(loginButton, loginPopup,{
+           placement: 'top'
+       });
+    });
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            usernameErrMessage: "Username can not be empty",
+            passErrMessage: "Password can not be empty",
+            passCheckErrMessage: "Field can not be empty",
+            emailErrMessage: "Ok!",//'Must not be used by any other user', 'Enter a valid email'
+            users: [],
+            registerPage: 1,
+            text: 'Parizer expirat',
+            menuVisible: true,
+            menuBtns: [ "Register", "Users", "Sign out"],
+            usersVisible: false,
+            loggedIn: false,
+            isHome: true,
+            signInMenuVisible: false,
+            contactMenuVisible: false,
+            progressMenuVisible: false,
+            nutritionMenuVisible: false,
+            accountMenuVisible: false,
+            accountSubMenuVisible: false,
+            helpMenuVisible: false,
+            registerMenuVisible: false,
+            accountAccountInfoMenuVisible: false,
+            accountUserInfoMenuVisible: false,
+            registrationStep: "First step: Account registration",
+            username:'',
+            password:'',
+            checkPassword:'',
+            email:'',
+            firstName:'',
+            lastName:'',
+            height:'',
+            pickedSex: 'Male',
+            heightMeasureUnits:[],
+            mealsPerDay: 5,
+            mealsPerDayList: [1, 2, 3, 4, 5],
+            pickedHeightUnit:'cm',
+            weight:'',
+            targetWeight:'',
+            weightMeasureUnits:[],
+            pickedWeightUnit:'kg',
+            birthdate:'',
+            targetDate: '',
+            weightLossPlan:'Maintenance',
+            weightLossPlanList:['Maintenance', 'Ketogenic', 'Vegan', 'Intermittent Fasting'],
+            activityLevel:'Medium',
+            activityLevelList:['Low', 'Medium', 'High'],
+            photoId:'photoId',
+            allergies:[],
+            selectedAllergy:'',
+            registerButtonMsg: "Next step",
+            isAllergicTo:[false, false, false, false, false, false, false, false, false, false, false],
+            image: '',
+            calories: 1857,
+            pPercentage: 25,
+            cPercentage: 60,
+            fPercentage: 15,
+            deficit1: 0,
+            deficit2: 0,
+            deficit3: 0,
+            retVal: '',
+            userId: -1,
+            updateInfoButton: 'Update info',
+            isFasting: false,
+            adminUserDataList: null,
+            redrawChart: false,
+            todayFoodMenu: {
+                meal1: [{name: "", qty: ""}, {name: "", qty: ""}, {name: "", qty: ""}],
+                meal2: [{name: "", qty: ""}, {name: "", qty: ""}, {name: "", qty: ""}],
+                meal3: [{name: "", qty: ""}, {name: "", qty: ""}, {name: "", qty: ""}],
+                snack1: [{name: "", qty: ""}, {name: "", qty: ""}, {name: "", qty: ""}],
+                snack2: [{name: "", qty: ""}, {name: "", qty: ""}, {name: "", qty: ""}]
+            },
+            isAdmin: false
+        },
+        mounted() {
+            //this.fetchUsers();
+            this.fetchHeightMeasureUnits();
+            this.fetchWeightMeasureUnits();
+            this.fetchAllergies();
+        },
+        methods: {
+            fetchUsers(){
+                axios.get("/users").then(function (response) {
+                    this.users = response.data;
+                }.bind(this));
+            },
+            fetchHeightMeasureUnits(){
+                axios.get("/heightUnits").then(function (response) {
+                    this.heightMeasureUnits = response.data;
+                }.bind(this));
+            },
+            fetchWeightMeasureUnits(){
+                axios.get("/weightUnits").then(function (response) {
+                    this.weightMeasureUnits = response.data;
+                }.bind(this));
+            },
+            fetchAllergies(){
+                axios.get("/allergyList").then(function (response) {
+                    this.allergies = response.data;
+                }.bind(this));
+            },
+            showMenu(){
+                // if (this.menuVisible == true) {
+                //     this.registerMenuVisible = false;
+                // }
+                this.menuVisible = !this.menuVisible;
+                this.signInMenuVisible = false;
+                this.accountSubMenuVisible = false;
+            },
+            showSignInMenu(){
+                this.signInMenuVisible = !this.signInMenuVisible;
+            },
+            showAccountSubMenu(){
+                this.accountSubMenuVisible = !this.accountSubMenuVisible;
+            },
+            showUsers(){
+                this.usersVisible = !this.usersVisible;
+            },
+            register(){
+              this.registerMenuVisible = !this.registerMenuVisible;
+            },
+            showContact(){
+                this.contactMenuVisible = !this.contactMenuVisible;
+            },
+            signout(){
+                this.selectMenu("home");
+                this.signInMenuVisible = false;
+                this.loggedIn = false;
+                this.username = '';
+                this.password = '';
+                this.usersVisible = false;
+                this.userId = -1;
+                this.firstName = '';
+                this.isAdmin = false;
+                this.imageSrc = false;
+            },
+            login(){
+                // for (var i = 0; i < this.users.length; i++) {
+                //     if(this.users[i].username.localeCompare(this.username) == 0 && this.users[i].password.localeCompare(this.password) == 0) {
+                //         this.loggedIn = true;
+                //         break;
+                //     }
+                // }
+                axios.post("/signIn/", {
+                    username: btoa(this.username),
+                    password: btoa(this.password),
+                    email: ''
+                }).then(function (response) {
+                    this.retVal = response.data;
+                    if(atob(this.retVal.errMsg).localeCompare('Ok!') == 0) {
+                        this.loggedIn = true;
+                        this.password = '';
+                        this.firstName = atob(this.retVal.firstName);
+                        this.userId = this.retVal.userId;
+                        this.isAdmin = (this.retVal.isAdmin == 1);
+                        this.downloadImage();
+                    } else {
+                        this.username = 'Bad username or password';
+                        this.password = '';
+                        this.retVal = '';
+                        this.loggedIn = false;
+                        this.firstName = '';
+                        this.userId = -1;
+                    }
+                }.bind(this));
+
+            },
+            goHome(){
+                this.registerMenuVisible = false;
+                this.contactMenuVisible = false;
+                this.progressMenuVisible = false;
+                this.nutritionMenuVisible = false;
+                this.isHome = true;
+            },
+            addRemoveUserAlergy(allergyId){
+                this.isAllergicTo[allergyId - 1] = !this.isAllergicTo[allergyId - 1];
+                Vue.set(this.isAllergicTo, allergyId - 1, this.isAllergicTo[allergyId - 1]);
+                console.log(this.isAllergicTo);
+            },
+            isSelected(allergyId) {
+                return this.isAllergicTo.contains(allergyId);
+            },
+            clearUser() {
+                if (this.username.localeCompare("username") == 0) {
+                    this.username = "";
+                }
+            },
+            clearPass() {
+                if (this.password.localeCompare("password") == 0) {
+                    this.password = "";
+                }
+            },
+            checkUsername() {
+                if (this.username) {
+                    axios.get("/checkUser/" + btoa(this.username)).then(function (response) {
+                        this.usernameErrMessage = response.data;
+                    }.bind(this));
+                } else {
+                    this.usernameErrMessage = "Username can not be empty";
+                }
+                if (this.usernameErrMessage.localeCompare("Ok!") == 0) {
+                    this.registerButtonMsg = "One more step";
+                } else {
+                    this.registerButtonMsg = "Please correct entered data";
+                }
+            },
+            checkPass() {
+                if (this.password) {
+                    axios.get("/checkPass/" + btoa(this.password)).then(function (response) {
+                        this.passErrMessage = response.data;
+                    }.bind(this));
+                } else {
+                    this.passErrMessage = "Password can not be empty";
+                }
+                if (this.passErrMessage.localeCompare("Ok!") == 0) {
+                    this.registerButtonMsg = "One more step";
+                } else {
+                    this.registerButtonMsg = "Please correct entered data";
+                }
+            },
+            checkEmail() {
+                if (this.email) {
+                    axios.get("/checkEmail/" + btoa(this.email) + "/" + btoa(this.userId)).then(function (response) {
+                        this.emailErrMessage = response.data;
+                    }.bind(this));
+                } else {
+                    this.emailErrMessage = "Email can not be empty";
+                }
+                if (this.emailErrMessage.localeCompare("Ok!") == 0) {
+                    this.registerButtonMsg = "One more step";
+                } else {
+                    this.registerButtonMsg = "Please correct entered data";
+                }
+            },
+            checkPass2() {
+                if (this.checkPassword) {
+                    if (this.password.localeCompare(this.checkPassword) == 0) {
+                        this.passCheckErrMessage = "Ok!";
+                    } else {
+                        this.passCheckErrMessage = "Password is different";
+                    }
+                } else {
+                    this.passCheckErrMessage = "Field can not be empty";
+                }
+            },
+            registerAccount() {
+                // if (this.canRegister()) {
+                //     if(this.registerPage < 3) {
+                //         this.registerPage++;
+                //         if (this.registerPage == 2) {
+                //             this.registrationStep = "Step two: User data";
+                //             this.registerButtonMsg = "One more step";
+                //             axios.post("/register/step1/", {
+                //                 username: btoa(this.username),
+                //                 password: btoa(this.password),
+                //                 email: btoa(this.email)
+                //             }).then(function (response) {
+                //                 this.emailErrMessage = response.data;
+                //             }.bind(this));
+                //         } else {
+                //             this.registrationStep = "Step three: Allergies";
+                //             this.registerButtonMsg = "Finalize registration!";
+                //         }
+                //     }
+                // } else {
+                //     this.registerButtonMsg = "Please correct entered data";
+                //     console.log(this.usernameErrMessage);
+                //     console.log(this.passErrMessage);
+                //     console.log(this.passCheckErrMessage);
+                //     console.log(this.emailErrMessage);
+                //     console.log(this.canRegister());
+                // }
+
+                switch (this.registerPage) {
+
+                    case 1:
+                        if(this.validationStep1()){
+                            this.registerPage++;
+                            this.registrationStep = "Step two: User data";
+                            this.registerButtonMsg = "One more step";
+                            axios.post("/register/step1/", {
+                                username: btoa(this.username),
+                                password: btoa(this.password),
+                                email: btoa(this.email)
+                            }).then(function (response) {
+                            }.bind(this));
+
+                            axios.get("/getDiets/").then(function (response) {
+                                this.retVal = response.data;
+                                this.weightLossPlanList = atob(this.retVal.weightLossPlanList);
+                            }.bind(this));
+                        } else {
+                            this.registerButtonMsg = "Please correct entered data";
+                        }
+                        return;
+                    case 2:
+                        axios.post("/register/step2/", {
+                            firstName: btoa(this.firstName),
+                            lastName: btoa(this.lastName),
+                            sex: btoa(this.pickedSex),
+                            height: btoa(this.height),
+                            hUnit: btoa(this.pickedHeightUnit),
+                            weight: btoa(this.weight),
+                            wUnit: btoa(this.pickedWeightUnit),
+                            birthday: btoa(this.birthdate),
+                            tWeight: btoa(this.targetWeight),
+                            tDate: btoa(this.targetDate),
+                            diet: btoa(this.weightLossPlan),
+                            activityLevel: btoa(this.activityLevel),
+                            mealsPerDay: btoa(this.mealsPerDay),
+                        }).then(function (response) {
+                            this.retVal = response.data;
+                            if (this.retVal.localeCompare("Ok!") == 0){
+                                this.uploadImage();
+                                this.registerPage++;
+                                this.registrationStep = "Step three: Allergies";
+                                this.registerButtonMsg = "Finalize registration!";
+                            } else {
+                                this.registerButtonMsg = "Please correct entered data";
+                            }
+                        }.bind(this));
+
+                        return;
+                    case 3:
+                        axios.post("/register/step3/", {
+                            allergies: this.isAllergicTo
+                        }).then(function (response) {
+                            this.selectMenu("home");
+                            this.password = "";
+                            this.isHome = true;
+                            this.loggedIn = false;
+                            this.menuVisible = true;
+                            this.signInMenuVisible = true;
+                        }.bind(this));
+                        return;
+                    default:
+                        return;
+                }
+            },
+            onDrop: function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var files = e.dataTransfer.files;
+                this.createFile(files[0]);
+            },
+            onChange(e) {
+                var files = e.target.files;
+                this.createFile(files[0]);
+            },
+            createFile(file) {
+                if (!file.type.match('image.*')) {
+                    alert('Select an image');
+                    return;
+                }
+                this.image = new Image();
+                var reader = new FileReader();
+                var vm = this;
+
+                reader.onload = function(e) {
+                    vm.image = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            },
+            removeFile() {
+                this.image = '';
+            },
+            deselectMenus() {
+
+            },
+            selectMenu(menuType) {
+                if(menuType.localeCompare("signin") != 0) {
+                    this.isHome = false;
+                }
+                this.signInMenuVisible = false;
+                this.contactMenuVisible = false;
+                this.progressMenuVisible = false;
+                this.nutritionMenuVisible = false;
+                this.registerMenuVisible = false;
+                this.usersVisible = false;
+                this.accountMenuVisible = false;
+                this.accountSubMenuVisible = false;
+                this.helpMenuVisible = false;
+                this.registerMenuVisible = false;
+                this.accountAccountInfoMenuVisible = false;
+                this.accountUserInfoMenuVisible = false;
+                this.redrawChart = true;
+                window.redrawChart = true;
+
+                if(menuType.localeCompare("contact") == 0){
+                    this.contactMenuVisible = true;
+                } else if(menuType.localeCompare("signin") == 0){
+                    this.signInMenuVisible = true;
+                } else if(menuType.localeCompare("progress") == 0){
+                    axios.get("/getProgress/" + btoa(this.userId)).then(function (response) {
+                        this.retVal = response.data;
+                        window.weeklyData = this.retVal.weeklyCaloriesList;
+                        window.weekNo = window.weeklyData.length - 1;
+                    }.bind(this));
+                    this.progressMenuVisible = true;
+                } else if(menuType.localeCompare("nutrition") == 0){
+                    axios.get('/getDietData/' + btoa(this.userId)).then(function (response) {
+                        this.retVal = response.data;
+                        this.calories = this.retVal.todayCalories + " Kcal";
+                        window.calories = this.retVal.todayCalories;
+                        this.pPercentage = this.retVal.proteinRatio;
+                        window.pPercent = this.retVal.proteinRatio;
+                        this.cPercentage = this.retVal.carbRatio;
+                        window.cPercent = this.retVal.carbRatio;
+                        this.fPercentage = this.retVal.fatRatio;
+                        window.fPercent = this.retVal.fatRatio;
+                        this.nutritionMenuVisible = true;
+                    }.bind(this));
+                } else if(menuType.localeCompare("register") == 0){
+                    this.registerMenuVisible = true;
+                    this.registerPage = 1;
+                    this.registrationStep = "First step: Account registration";
+                    this.registerButtonMsg = "Next step";
+                } else if(menuType.localeCompare("users") == 0){
+                    axios.get(btoa('/getAdminUserData/')).then(function (response) {
+                        this.retVal = response.data;
+                        this.adminUserDataList = this.retVal.adminUserData;
+                    }.bind(this));
+                    this.usersVisible = true;
+                } else if(menuType.localeCompare("account") == 0) {
+                    this.accountSubMenuVisible = true;
+                } else if(menuType.localeCompare("help") == 0) {
+                    this.helpMenuVisible = true;
+                } else if(menuType.localeCompare("contact") == 0) {
+                    this.contactMenuVisible = true;
+                } else if(menuType.localeCompare("accountUserInfo") == 0) {
+
+                    axios.get("/getDiets/").then(function (response) {
+                        this.retVal = response.data;
+                        this.weightLossPlanList = this.retVal.weightLossPlanList;
+                    }.bind(this));
+
+                    axios.get("/getUserInfo/" + this.userId).then(function (response) {
+                        this.retVal = response.data;
+                        if(atob(this.retVal.errMsg).localeCompare("Ok!") == 0) {
+                            this.accountUserInfoMenuVisible = true;
+                            this.firstName = atob(this.retVal.firstName);
+                            this.lastName = atob(this.retVal.lastName);
+                            this.pickedSex = atob(this.retVal.sex);
+                            this.height = atob(this.retVal.height);
+                            this.pickedHeightUnit = atob(this.retVal.hUnit);
+                            this.weight = atob(this.retVal.weight);
+                            this.pickedWeightUnit = atob(this.retVal.wUnit);
+                            this.birthdate = atob(this.retVal.birthday);
+                            this.targetWeight = atob(this.retVal.tWeight);
+                            this.targetDate = atob(this.retVal.tDate);
+                            this.weightLossPlan = atob(this.retVal.diet);
+                            this.activityLevel = atob(this.retVal.activityLevel);
+                            this.mealsPerDay = atob(this.retVal.mealsPerDay);
+                            this.updateInfoButton = 'Update info';
+                            this.checkFasting();
+                        } else {
+                            this.updateInfoButton = 'Error loading info';
+                        }
+                    }.bind(this));
+
+                } else if(menuType.localeCompare("accountAccountInfo") == 0) {
+                    axios.get("/getAccountInfo/" + this.userId).then(function (response) {
+                        this.retVal = response.data;
+                        if(atob(this.retVal.errMsg).localeCompare("Ok!") == 0) {
+                            this.accountAccountInfoMenuVisible = true;
+                            this.password = atob(this.retVal.password);
+                            this.checkPassword = this.password;
+                            this.email = atob(this.retVal.email);
+                            this.updateInfoButton = 'Update info';
+                        } else {
+                            this.updateInfoButton = 'Error loading info';
+                        }
+                    }.bind(this));
+                }
+
+                if(this.loggedIn) {
+                    this.downloadImage();
+                }
+            },
+            canRegister(){
+                return (this.usernameErrMessage.localeCompare("Ok!") == 0 &&
+                        this.passErrMessage.localeCompare("Ok!") == 0 &&
+                        this.passCheckErrMessage.localeCompare("Ok!") == 0 &&
+                        this.emailErrMessage.localeCompare("Ok!") == 0);
+            },
+            checkFasting(){
+                this.isFasting = (this.weightLossPlan.localeCompare('Intermittent Fasting') == 0);
+                if (this.isFasting == true) {
+                    this.mealsPerDay = 1;
+                }
+            },
+            updateEstimation(){
+                var dateParts = this.targetDate.split('-');
+                var targDate = new Date(dateParts[2],dateParts[1], dateParts[0]);
+                var oneDay = 24*60*60*1000;
+                var bodyfatKcals = 7700;
+                var diffDays = Math.round(Math.abs((targDate.getTime() - new Date().getTime())/(oneDay)));
+                this.deficit1 = ((this.weight - this.targetWeight) / diffDays * 7700).toFixed(2);
+                this.deficit2 = ((this.weight - this.targetWeight) / diffDays * 7700 * 7).toFixed(2);
+                this.deficit3 = ((this.weight - this.targetWeight) / diffDays * 7).toFixed(2);
+            },
+            updateInfo1(){
+                axios.post("/updateAccountInfo/", {
+                    username: '',
+                    password: btoa(this.password),
+                    email: btoa(this.email),
+                    id: btoa(this.userId)
+                }).then(function (response) {
+                    this.retVal = response.data;
+                    if(this.retVal.localeCompare("Ok!") == 0) {
+                        this.updateInfoButton = 'Done';
+                    } else {
+                        this.updateInfoButton = 'Check entered data';
+                    }
+                }.bind(this))
+
+            },
+            updateInfo2(){
+                axios.post("/updateUserInfo/", {
+                    id: btoa(this.userId),
+                    firstName: btoa(this.firstName),
+                    lastName: btoa(this.lastName),
+                    sex: btoa(this.pickedSex),
+                    height: btoa(this.height),
+                    hUnit: btoa(this.pickedHeightUnit),
+                    weight: btoa(this.weight),
+                    wUnit: btoa(this.pickedWeightUnit),
+                    birthday: btoa(this.birthdate),
+                    tWeight: btoa(this.targetWeight),
+                    tDate: btoa(this.targetDate),
+                    diet: btoa(this.weightLossPlan),
+                    activityLevel: btoa(this.activityLevel),
+                    mealsPerDay: btoa(this.mealsPerDay),
+                }).then(function (response) {
+                    this.retVal = response.data;
+                    if(this.retVal.localeCompare("Ok!") == 0) {
+                        this.updateInfoButton = 'Done';
+                        this.uploadImage();
+                    } else {
+                        this.updateInfoButton = 'Check entered data';
+                    }
+                }.bind(this));
+            },
+            regButtonDisabled(){
+                return canRegister();
+            },
+            validationStep1(){
+                return (this.usernameErrMessage.localeCompare("Ok!") == 0 &&
+                    this.passErrMessage.localeCompare("Ok!") == 0 &&
+                    this.passCheckErrMessage.localeCompare("Ok!") == 0 &&
+                    this.emailErrMessage.localeCompare("Ok!") == 0);
+            },
+            uploadImage(){
+                axios.post("/uploadImage/", {
+                    imageSrc: btoa(this.image),
+                    userId: this.userId
+                }).then(function (response) {
+                    this.retVal = response.data;
+                }.bind(this));
+            },
+            downloadImage(){
+                axios.get("/downloadImage/" + btoa(this.userId)).then(function (response) {
+                    this.image = atob(response.data);
+                }.bind(this));
+
+            },
+            updateAdminUserData(){
+                axios.post(btoa("/setAdminUserData/"), this.adminUserDataList).then(function (response) {
+                    this.retVal = response.data;
+                }.bind(this));
+            },
+            updateCaloriesText(){
+                if (this.calories.indexOf(' ') < 0) {
+                    this.calories = this.calories + " Kcal";
+                    window.calories = this.calories;
+                } else {
+                    window.calories = this.calories.substring(0, this.calories.indexOf(' '));
+                }
+            },
+            updateCalories(){
+                axios.get("/updateCalories/" + btoa(this.userId) +"/" + btoa(window.calories)).then(function (response) {
+                    this.retVal = response.data;
+                }.bind(this));
+                this.getUserMenu();
+            },
+            getUserMenu(){
+                axios.get("/getUserMenu/" + btoa(this.userId)).then(function (response) {
+                    this.retVal = response.data;
+                    this.todayFoodMenu = this.retVal.userMenuData;
+                }.bind(this));
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE HTML>
+
+        <html>
+        <head>
+            <meta charset="utf-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                    crossorigin="anonymous"></script>
+            <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>-->
+            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                    crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                  crossorigin="anonymous">
+
+            <link rel="stylesheet" ref="css/animate.css"/>
+
+            <style>
+                .menu-item {
+                    width: 100%;
+                    display: block;
+                    color: white;
+                    text-align: center;
+                    text-decoration: none;
+                }
+
+                .menu-subitem {
+                    width: 100%;
+                    display: block;
+                    color: white;
+                    text-align: center;
+                    text-decoration: none;
+                    background-color: #a46000;
+                }
+
+                li:hover {
+                    background-color: #a46000;
+                    cursor: pointer;
+                }
+
+                .selected {
+                    border: 2px solid orange;
+                }
+
+                /*li a:hover {
+                background-color: gray();
+                }
+                {
+                box-sizing: border-box;
+                }
+
+                /* Create two unequal columns that floats next to each other */
+                .column {
+                    float: left;
+                    padding: 10px;
+                    height: 100%;
+                    position: absolute;
+                }
+
+                .left {
+                    width: 25%;
+                }
+
+                .right {
+                    width: 75%;
+                }
+
+                *
+
+                /
+
+                /*     !* Clear floats after the columns */
+                .row:after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                }
+
+                *
+
+                /
+                html {
+                    font-size: 100%;
+                / / this is usually 16 px by default
+                }
+
+                body {
+                    font-size: 1.5em;
+                / / 12 px
+                }
+
+                h1 {
+                    font-size: 2em;
+                / / 24 px
+                }
+            </style>
+
+        </head>
+<body style="background-color:#fcffb7">
+<div id="app">
+    <!--<span v-if="signInMenuVisible">-->
+    <!--<button id="button-a">button</button>-->
+    <!--<div class="loginPopup">-->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+    <!--<div class="col-md-offset-5 col-md-3">-->
+    <!--<div class="form-login">-->
+    <!--<h4>Welcome back.</h4>-->
+    <!--<input type="text" id="userName" class="form-control input-sm chat-input" placeholder="username" />-->
+    <!--</br>-->
+    <!--<input type="text" id="userPassword" class="form-control input-sm chat-input" placeholder="password" />-->
+    <!--</br>-->
+    <!--<div class="wrapper">-->
+    <!--<span class="group-btn">-->
+    <!--<a href="#" class="btn btn-primary btn-md">login <i class="fa fa-sign-in"></i></a>-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</span>-->
+    <div class="table">
+        <div class="row" style="background-color: orange; text-align: center; ">
+            <h1>Title</h1>
+        </div>
+        <div class="row">
+            <div class="column left"
+                 style="width: 20%; height: 100%; float: left; background-color:orange; text-align: center">
+                <a @click="showMenu"
+                   style="width: 100%; display: block; color: white; text-align: center; text-decoration: none; cursor: pointer">
+                    <h3>Meniu</h3>
+                </a> <span v-if="loggedIn"><h2>Welcome, {{username}}!</h2></span>
+
+                <!-- <li v-for="user in users">
+                <h3>{{user.id}}
+                {{user.username}}
+                {{user.password}}
+                </h3>
+                </li>-->
+                <span v-if="menuVisible">
+<ul class="menu-item" style="text-decoration: none; list-style-type: none; padding: 0px">
+<li><a style="text-decoration: none; color: ghostwhite" @click="register"><h4>Register</h4></a></li>
+<li>
+<span v-if="loggedIn"><a style="text-decoration: none; color: ghostwhite" @click="showUsers"><h4>Users</h4></a></span>
+<span v-if="usersVisible">
+<ul class="menu-subitem" style="text-decoration: none;list-style-type: none; padding: 0px">
+<li v-for="user in users">
+<h3>{{user.id}}
+{{user.username}}
+{{user.password}}
+{{user.enabled}}
+</h3>
+</li>
+</ul>
+</span>
+</li>
+<span v-if="loggedIn">
+<li><a style="text-decoration: none; color: ghostwhite" @click="signout"><h4>Sign out</h4></a></a></li>
+</span>
+<span v-if="!loggedIn">
+<li><a style="text-decoration: none; color: ghostwhite" @click="showSignInMenu"><h4>Sign in</h4></a></a></li>
+<span v-if="signInMenuVisible">
+<div class="container-fluid">
+<input type="text" id="userName" class="form-control input-xs chat-input" placeholder="username" v-model="username"/>
+    </br>
+    <input type="text" id="userPassword" class="form-control input-xs chat-input" placeholder="password"
+           v-model="password"/>>
+    <!--<div class="column" style="float: left; padding-left: 23px;"><a class="menu-subitem" style="padding-top: 25px;">Username:<br>Password:</a></div>-->
+    <!--<div class="column"><a class="menu-subitem" style="padding-top: 20px;"><input v-model="username"><br><input v-model="password"></a></div>-->
+<a class="menu-subitem" @click="login"><div class="column" style="color: ghostwhite;">Submit ></div></a>
+</div>
+</span>
+</span>
+</ul>
+</span>
+            </div>
+            <div class="column"
+                 style="padding-left: 50px; width: 80%; height: 100%; text-align: left; vertical-align: bottom; float: right; background-color:ghostwhite;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-4" style="background-color:orangered;">
+                            <h4>TEst text</h4>
+                        </div>
+                        <div class="col-xs-8" style="background-color:darkred;">
+                            <h4>TEst text</h4>
+                        </div>
+                    </div>
+                </div>
+                <span v-if="!loggedIn">
+<h2>Welcome to the app!</h2>
+<p>You should log in</p>
+</span>
+                <span v-if="registerMenuVisible">
+<div class="column" style="float: left; padding-left: 30px">
+<div class="row">
+<div class="row"><div style="width: 150px; float: left">Username:</div><input v-model="username"></div>
+<div class="row"><div style="width: 150px; float: left">Password:</div><input v-model="password"></div>
+<div class="row"><div style="width: 150px; float: left">Password check:</div><input v-model="checkPassword"></div>
+<div class="row"><div style="width: 150px; float: left">Email:</div><input v-model="email"></div>
+<div class="row"><div style="width: 150px; float: left">First Name:</div><input v-model="firstName"></div>
+<div class="row"><div style="width: 150px; float: left">Last Name:</div><input v-model="lastName"></div>
+<div class="row"><div style="width: 150px; float: left">Height:</div><input v-model="height">
+<select v-model="pickedHeightUnit">
+<option disabled value="">Select preferred unit</option>
+<option v-for="heightMeasureUnit in heightMeasureUnits" :value="heightMeasureUnit">
+{{heightMeasureUnit}}
+</option>
+</select>
+</div>
+<div class="row"><div style="width: 150px; float: left">Weight:</div><input v-model="weight">
+<select v-model="pickedWeightUnit">
+<option disabled value="">Select preferred unit</option>
+<option v-for="weightMeasureUnit in weightMeasureUnits" :value="weightMeasureUnit">
+{{weightMeasureUnit}}
+</option>
+</select>
+</div>
+<div class="row"><div style="width: 150px; float: left">Birthday:</div><input v-model="birthdate"></div>
+<div class="row"><div style="width: 150px; float: left">Diet:</div><input v-model="weightLossPlan"></div>
+<div class="row"><div style="width: 150px; float: left">Activity level:</div><input v-model="activityLevel"></div>
+<div class="row"><div style="width: 150px; float: left">Photo:</div><input v-model="photoId"></div>
+<div class="row"><div style="width: 150px; float: left">Allergies:</div><br>
+<img v-for="allergy in allergies" :src="allergy.pictureName" :class="{ 'selected': isAllergicTo[allergy.id - 1] }"
+     style="cursor: pointer" @click="isAllergicTo[1] = !isAllergicTo[1]">
+
+    <!--                                <ul style="text-decoration: none; color: black; list-style-type: none; padding-left: 60px">
+    <li v-for="allergy in allergies">
+    <input type="checkbox" id="{{allergy.id}}"><label for="{{allergy.id}}">{{allergy.allergyType}}</label>
+    </li>
+    </ul>-->
+</div>
+</div>
+</div>
+</span>
+                <!--<div class="column">       isAllergicTo.contains(allergy.id)
+                <input v-model="username"><br>
+                <input v-model="password"><br>
+                <input v-model="checkPassword"><br>
+                <input v-model="email"><br>
+                <input v-model="firstName"><br>
+                <input v-model="lastName"><br>
+                <input v-model="height"><br>
+                <input v-model="weight"><br>
+                <input v-model="birthdate"><br>
+                <input v-model="weightLossPlan"><br>
+                <input v-model="activityLevel"><br>
+                <input v-model="photoId"><br>-->
+                <!-- <ul style="text-decoration: none; color: black">
+                <li v-for="allergy in allergies">
+                <input type="checkbox" id="{{allergy.id}}"><label for="{{allergy.id}}">{{allergy.allergyType}}</label>
+                </li>
+                </ul>
+                <!--      <ul>
+                <li v-for="allergy in allergies">
+                <h3>{{allergy}}
+                </h3>
+                </li>
+                </ul>-->
+
+                <div class="column">
+
+                    <select v-model="pickedHeightUnit">
+                        <option disabled value="">Select preferred unit</option>
+                        <option v-for="heightMeasureUnit in heightMeasureUnits" :value="heightMeasureUnit">
+                            {{heightMeasureUnit}}
+                        </option>
+                    </select>
+                    <br>
+                    <select v-model="pickedWeightUnit">
+                        <option disabled value="">Select preferred unit</option>
+                        <option v-for="weightMeasureUnit in weightMeasureUnits" :value="weightMeasureUnit">
+                            {{weightMeasureUnit}}
+                        </option>
+                    </select>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row" style="background-color:#ffd649;">
+        <div class="container-fluid">
+            <h1 class="text-center" style="color:white; text-shadow:
+                                                                        -1px -1px 0 #000,
+                                                                        1px -1px 0 #000,
+                                                                        -1px 1px 0 #000,
+                                                                        1px 1px 0 #000;  ">
+                Planificator nutritional
+            </h1>
+        </div>
+    </div>
+    <div class="row" style="height:80%;float:none">
+        <div class="col-sm-3 rounded-bottom" style="height:100%; background-color:#ffd649;">
+            Menu
+
+
+        </div>
+        <div class="col-sm-9" style="background-color:#fcffb7;">Info</div>
+    </div>
+    <!--<div class="row" style="height:10%;">-->
+    <div class="col-sm-2 rounded text-center"
+         style="background-color:#ffd649; font-size: 0.7em; position: fixed; bottom:0px;">
+        <p id="currentTime"></p>
+        <p id="currentDate"></p>
+    </div>
+
+</div>
+
+</body>
+
+<script>
+    var display = setInterval(function () {
+        Time()
+    }, 0);
+
+
+    function Time() {
+        var date = new Date();
+        var time = date.toLocaleTimeString();
+        document.getElementById("currentTime").innerHTML = time;
+        document.getElementById("currentDate").innerHTML = date.toLocaleDateString('ro-RO', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+</script>
+
+
+<script>
+    var loginPopup = $('#loginPopup');
+    var loginButton = $('#button-a');
+    loginPopup.hide();
+    loginButton.click(function () {
+        loginPopup.show();
+        var popup = new Popper(loginButton, loginPopup, {
+            placement: 'top'
+        });
+    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            users: [],
+            text: 'Parizer expirat',
+            menuVisible: true,
+            menuBtns: ["Register", "Users", "Sign out"],
+            usersVisible: false,
+            loggedIn: false,
+            signInMenuVisible: false,
+            username: 'username',
+            password: 'password',
+            checkPassword: 'checkPassword',
+            registerMenuVisible: false,
+            email: 'email',
+            firstName: 'firstName',
+            lastName: 'lastName',
+            height: 'height',
+            heightMeasureUnits: [],
+            pickedHeightUnit: '',
+            weight: 'weight',
+            weightMeasureUnits: [],
+            pickedWeightUnit: 'pickedWeightUnit',
+            birthdate: 'birthdate',
+            weightLossPlan: 'weightLossPlan',
+            activityLevel: 'activityLevel',
+            photoId: 'photoId',
+            allergies: [],
+            selectedAllergy: '',
+            isAllergicTo: [true, false, false, false, false, false, false, false, false, false, false]
+        },
+        mounted() {
+            this.fetchUsers();
+            this.fetchHeightMeasureUnits();
+            this.fetchWeightMeasureUnits();
+            this.fetchAllergies();
+        },
+        methods: {
+            fetchUsers() {
+                axios.get("/users").then(function (response) {
+                    this.users = response.data;
+                }.bind(this));
+            },
+            fetchHeightMeasureUnits() {
+                axios.get("/heightUnits").then(function (response) {
+                    this.heightMeasureUnits = response.data;
+                }.bind(this));
+            },
+            fetchWeightMeasureUnits() {
+                axios.get("/weightUnits").then(function (response) {
+                    this.weightMeasureUnits = response.data;
+                }.bind(this));
+            },
+            fetchAllergies() {
+                axios.get("/allergyList").then(function (response) {
+                    this.allergies = response.data;
+                }.bind(this));
+            },
+            showMenu() {
+                this.menuVisible = !this.menuVisible;
+                this.signInMenuVisible = false;
+            },
+            showSignInMenu() {
+                this.signInMenuVisible = !this.signInMenuVisible;
+            },
+            showUsers() {
+                this.usersVisible = !this.usersVisible;
+            },
+            register() {
+                this.registerMenuVisible = !this.registerMenuVisible;
+            },
+            signout() {
+                this.signInMenuVisible = false;
+                this.loggedIn = false;
+                this.username = '';
+                this.password = '';
+            },
+            login() {
+                for (var i = 0; i < this.users.length; i++) {
+                    if (this.users[i].username.localeCompare(this.username) == 0 && this.users[i].password.localeCompare(this.password) == 0) {
+                        this.loggedIn = true;
+                        break;
+                    }
+                }
+            },
+            addRemoveUserAlergy(allergyId) {
+                this.isAllergicTo[allergyId - 1] = !this.isAllergicTo[allergyId - 1];
+                this.isAllergicTo[1] = true;
+            },
+            isSelected(allergyId) {
+                return this.isAllergicTo.contains(allergyId);
+            }
+        }
+
+    })
+</script>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
